@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateMovimentRequestDTO } from '../dto';
-import { Moviment } from 'src/domain';
+import { Moviment } from '@/domain';
 import { MovimentService } from '../services';
 
 @Controller('moviments')

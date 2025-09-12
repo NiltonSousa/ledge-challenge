@@ -1,5 +1,5 @@
 import { Body, Injectable } from '@nestjs/common';
-import { Account } from 'src/domain';
+import { Account } from '@/domain';
 import { CreateAccountRequestDTO } from '../dto';
 import { randomUUID } from 'node:crypto';
 

@@ -1,5 +1,5 @@
 import { Body, Injectable } from '@nestjs/common';
-import { Moviment, MovimentType } from 'src/domain';
+import { Account, Moviment, MovimentType } from '@/domain';
 import { CreateMovimentRequestDTO } from '../dto';
 import { randomUUID } from 'node:crypto';
 
@@ -9,6 +9,7 @@ export class MovimentService {
     return Moviment.build(
       randomUUID(),
       dto.accountId,
+      new Account(randomUUID(), 'name', 'document', 'email'),
       dto.amount,
       dto.type as unknown as MovimentType,
       dto.description,

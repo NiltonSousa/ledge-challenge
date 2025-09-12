@@ -1,2 +1,2 @@
-export * from './account.domain';
-export * from './moviment.domain';
+export * from './account.entity';
+export * from './moviment.entity';
