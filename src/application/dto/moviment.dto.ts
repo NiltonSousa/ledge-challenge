@@ -1,0 +1,15 @@
+import { IsNumber, IsString } from 'class-validator';
+
+export class CreateMovimentRequestDTO {
+  @IsString()
+  accountId: string;
+
+  @IsNumber()
+  amount: number;
+
+  @IsString()
+  type: string;
+
+  @IsString()
+  description: string;
+}
