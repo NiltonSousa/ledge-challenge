@@ -39,14 +39,14 @@ export class RabbitPublisher implements OnModuleInit, OnModuleDestroy {
     this.logger.log('Channel ready');
   }
 
-  async publishMoviment(event: any) {
+  async publish(event: any, queue: string) {
     try {
       await this.channel.sendToQueue(
-        'moviments_queue',
+        queue,
         Buffer.from(JSON.stringify(event)),
         { persistent: true, contentType: 'application/json' },
       );
-      this.logger.debug(`Published moviment ${JSON.stringify(event) ?? ''}`);
+      this.logger.debug(`Published ${JSON.stringify(event) ?? ''}`);
     } catch (err) {
       this.logger.error(`Publish failed: ${String(err)}`);
       throw err;
