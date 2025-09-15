@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Account, Moviment } from '@/domain';
+import { Account, Movement } from '@/domain';
 import {
   CreateAccountRequestDTO,
   CreateAccountResponseDTO,
@@ -75,9 +75,9 @@ export class AccountService {
     await qr.connect();
     await qr.startTransaction();
 
-    const movimentRepo = qr.manager.getRepository(Moviment);
+    const movementRepo = qr.manager.getRepository(Movement);
 
-    const { sum } = await movimentRepo
+    const { sum } = await movementRepo
       .createQueryBuilder('m')
       .select(
         "COALESCE(SUM(CASE WHEN m.type = 'CREDIT' THEN m.amount ELSE -m.amount END), 0)",

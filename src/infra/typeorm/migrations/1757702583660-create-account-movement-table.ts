@@ -15,7 +15,7 @@ export class CreateAccountTable1757702583660 implements MigrationInterface {
         updated_at  TIMESTAMPTZ    NOT NULL DEFAULT now()
       );
 
-      CREATE TABLE IF NOT EXISTS public.moviment (
+      CREATE TABLE IF NOT EXISTS public.movement (
         id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         account_id   uuid            NOT NULL,
         amount       NUMERIC(14,2)   NOT NULL,
@@ -23,7 +23,7 @@ export class CreateAccountTable1757702583660 implements MigrationInterface {
         description  TEXT,
         created_at   TIMESTAMPTZ     NOT NULL DEFAULT now(),
         updated_at   TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        CONSTRAINT fk_moviment_account
+        CONSTRAINT fk_movement_account
           FOREIGN KEY (account_id)
           REFERENCES public.account(id)
           ON DELETE CASCADE
@@ -34,7 +34,7 @@ export class CreateAccountTable1757702583660 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-        DROP TABLE IF EXISTS public.moviment;
+        DROP TABLE IF EXISTS public.movement;
         DROP TABLE IF EXISTS public.account;
 `);
   }

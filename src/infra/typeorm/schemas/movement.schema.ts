@@ -1,9 +1,9 @@
 import { EntitySchema } from 'typeorm';
-import { Moviment } from '@/domain';
+import { Movement } from '@/domain';
 
-export const MovimentSchema = new EntitySchema<Moviment>({
-  name: 'Moviment',
-  target: Moviment,
+export const MovementSchema = new EntitySchema<Movement>({
+  name: 'Movement',
+  target: Movement,
   columns: {
     id: {
       type: Number,
@@ -29,7 +29,7 @@ export const MovimentSchema = new EntitySchema<Moviment>({
       type: 'many-to-one',
       target: 'Account',
       joinColumn: { name: 'account_id' },
-      inverseSide: 'moviments',
+      inverseSide: 'movements',
       onDelete: 'CASCADE',
     },
   },

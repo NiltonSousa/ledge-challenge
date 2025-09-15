@@ -3,15 +3,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Account, Moviment, MovimentType } from '@/domain';
-import { CreateMovimentRequestDTO } from '../dto';
+import { Account, Movement, MovementType } from '@/domain';
+import { CreateMovementRequestDTO } from '../dto';
 import { randomUUID } from 'node:crypto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { RabbitPublisher } from '@/infra/publisher/rabbit.publisher';
 
 @Injectable()
-export class MovimentService {
+export class MovementService {
   constructor(
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
@@ -19,14 +19,14 @@ export class MovimentService {
     private readonly rabbit: RabbitPublisher,
   ) {}
 
-  async createMoviment(dto: CreateMovimentRequestDTO): Promise<Moviment> {
+  async createMovement(dto: CreateMovementRequestDTO): Promise<Movement> {
     const account = await this.accountRepository.findOne({
       where: { id: dto.accountId },
     });
 
     if (!account) {
       throw new NotFoundException(
-        'Account not found for moviment accountID provided',
+        'Account not found for movement accountID provided',
       );
     }
 
@@ -35,9 +35,9 @@ export class MovimentService {
     await qr.startTransaction();
 
     try {
-      const movimentRepo = qr.manager.getRepository(Moviment);
+      const movementRepo = qr.manager.getRepository(Movement);
 
-      const { sum } = await movimentRepo
+      const { sum } = await movementRepo
         .createQueryBuilder('m')
         .select(
           "COALESCE(SUM(CASE WHEN m.type = 'CREDIT' THEN m.amount ELSE -m.amount END), 0)",
@@ -60,30 +60,30 @@ export class MovimentService {
         }
       }
 
-      const entity = movimentRepo.create(
-        Moviment.build(
+      const entity = movementRepo.create(
+        Movement.build(
           randomUUID(),
           account.id,
           account,
           dto.amount,
-          dto.type as unknown as MovimentType,
+          dto.type as unknown as MovementType,
           dto.description,
         ),
       );
 
-      const saved = await movimentRepo.save(entity);
+      const saved = await movementRepo.save(entity);
 
       await qr.commitTransaction();
 
       await this.rabbit.publish(
         {
-          movimentId: saved.id,
+          movementId: saved.id,
           accountId: saved.accountId,
           amount: saved.amount,
           movementType: saved.type,
           description: saved.description ?? null,
         },
-        'moviments_queue',
+        'movements_queue',
       );
 
       return saved;

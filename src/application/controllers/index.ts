@@ -1,2 +1,2 @@
 export * from './account.controller';
-export * from './moviment.controller';
+export * from './movement.controller';

@@ -30,8 +30,8 @@ export class RabbitPublisher implements OnModuleInit, OnModuleDestroy {
     this.channel = this.connection.createChannel({
       json: true,
       setup: async (ch: Channel) => {
-        await ch.assertQueue('moviments_queue', { durable: true });
-        this.logger.log('Queue asserted: moviments_queue');
+        await ch.assertQueue('movements_queue', { durable: true });
+        this.logger.log('Queue asserted: movements_queue');
       },
     });
 

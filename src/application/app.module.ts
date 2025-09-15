@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDotenv } from 'dotenv';
 import { LogConsumerModule } from './modules/consumer.module';
 import { AccountModule } from './modules/account.module';
-import { MovimentModule } from './modules/moviment.module';
+import { MovementModule } from './modules/movement.module';
 
 configDotenv();
 
@@ -20,7 +20,7 @@ configDotenv();
       synchronize: false,
     }),
     AccountModule,
-    MovimentModule,
+    MovementModule,
     LogConsumerModule,
   ],
 })

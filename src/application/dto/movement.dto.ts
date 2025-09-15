@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateMovimentRequestDTO {
+export class CreateMovementRequestDTO {
   @IsString()
   accountId: string;
 

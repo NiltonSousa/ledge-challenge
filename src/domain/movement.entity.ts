@@ -1,14 +1,14 @@
 import { Account } from './account.entity';
 
-export type MovimentType = 'CREDIT' | 'DEBIT';
+export type MovementType = 'CREDIT' | 'DEBIT';
 
-export class Moviment {
+export class Movement {
   constructor(
     public readonly id: string,
     public readonly accountId: string,
     public readonly account: Account,
     public readonly amount: number,
-    public readonly type: MovimentType,
+    public readonly type: MovementType,
     public readonly description: string,
   ) {}
 
@@ -17,9 +17,9 @@ export class Moviment {
     accountId: string,
     account: Account,
     amount: number,
-    type: MovimentType,
+    type: MovementType,
     description: string,
-  ): Moviment {
-    return new Moviment(id, accountId, account, amount, type, description);
+  ): Movement {
+    return new Movement(id, accountId, account, amount, type, description);
   }
 }

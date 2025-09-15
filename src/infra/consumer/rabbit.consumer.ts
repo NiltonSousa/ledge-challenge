@@ -36,8 +36,8 @@ export class RabbitConsumer implements OnModuleInit, OnModuleDestroy {
     this.channel = this.connection.createChannel({
       json: true,
       setup: async (ch: Channel) => {
-        await ch.assertQueue('moviments_queue', { durable: true });
-        this.logger.log('Queue asserted: moviments_queue');
+        await ch.assertQueue('movements_queue', { durable: true });
+        this.logger.log('Queue asserted: movements_queue');
       },
     });
 
@@ -46,7 +46,7 @@ export class RabbitConsumer implements OnModuleInit, OnModuleDestroy {
   }
 
   async consume(handler: MessageHandler) {
-    const queue = process.env.AMQP_QUEUE ?? 'moviments_queue';
+    const queue = process.env.AMQP_QUEUE ?? 'movements_queue';
     await this.channel.addSetup(async (ch: Channel) => {
       await ch.consume(
         queue,

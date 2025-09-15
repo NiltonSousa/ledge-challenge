@@ -1,2 +1,2 @@
 export * from './account.dto';
-export * from './moviment.dto';
+export * from './movement.dto';

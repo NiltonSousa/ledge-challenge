@@ -1,2 +1,2 @@
 export * from './account.service';
-export * from './moviment.service';
+export * from './movement.service';

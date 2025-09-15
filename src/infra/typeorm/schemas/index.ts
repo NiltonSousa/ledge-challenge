@@ -1,3 +1,3 @@
 export * from './account.schema';
-export * from './moviment.schema';
+export * from './movement.schema';
 export * from './ledger-log.schema';

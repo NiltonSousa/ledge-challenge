@@ -55,11 +55,11 @@ npm start
 curl 'http://localhost:3000/accounts/:account_id/balance'
 ```
 
-**POST Moviments**
+**POST Movements**
 
 ```bash
 curl -d '{"accountId": "{{accountIdGenerated}}","amount": 200,"type": "DEBIT","description": "Teste"}' \
 -H 'Content-Type: application/json' \
-'http://localhost:3000/moviments'
+'http://localhost:3000/movements'
 
 ```
