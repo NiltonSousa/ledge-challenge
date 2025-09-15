@@ -11,6 +11,6 @@ export class MovimentController {
   async createAccounts(
     @Body() dto: CreateMovimentRequestDTO,
   ): Promise<Moviment> {
-    return this.appService.createMoviments(dto);
+    return this.appService.createMoviment(dto);
   }
 }

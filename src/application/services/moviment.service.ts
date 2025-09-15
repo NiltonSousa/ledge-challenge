@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Account, Moviment, MovimentType } from '@/domain';
 import { CreateMovimentRequestDTO } from '../dto';
 import { randomUUID } from 'node:crypto';
@@ -13,11 +17,9 @@ export class MovimentService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async createMoviments(dto: CreateMovimentRequestDTO): Promise<Moviment> {
+  async createMoviment(dto: CreateMovimentRequestDTO): Promise<Moviment> {
     const account = await this.accountRepository.findOne({
-      where: {
-        id: dto.accountId,
-      },
+      where: { id: dto.accountId },
     });
 
     if (!account) {
@@ -26,17 +28,40 @@ export class MovimentService {
       );
     }
 
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
+    const qr = this.dataSource.createQueryRunner();
+    await qr.connect();
+    await qr.startTransaction();
 
     try {
-      const movimentRepo = queryRunner.manager.getRepository(Moviment);
+      const movimentRepo = qr.manager.getRepository(Moviment);
+
+      const { sum } = await movimentRepo
+        .createQueryBuilder('m')
+        .select(
+          "COALESCE(SUM(CASE WHEN m.type = 'CREDIT' THEN m.amount ELSE -m.amount END), 0)",
+          'sum',
+        )
+        .where('m.account_id = :accountId', { accountId: account.id })
+        .getRawOne<{ sum: string }>();
+
+      const balance = Number(sum ?? 0);
+
+      const usedLimit = Math.max(0, -balance);
+      const availableLimit = Math.max(0, account.creditLimit - usedLimit);
+
+      if (dto.type === 'DEBIT') {
+        const capacidade = balance + availableLimit;
+        if (dto.amount > capacidade) {
+          throw new BadRequestException(
+            'Insufficient funds and credit limit for debit',
+          );
+        }
+      }
 
       const entity = movimentRepo.create(
         Moviment.build(
           randomUUID(),
-          dto.accountId,
+          account.id,
           account,
           dto.amount,
           dto.type as unknown as MovimentType,
@@ -46,13 +71,12 @@ export class MovimentService {
 
       const saved = await movimentRepo.save(entity);
 
-      await queryRunner.commitTransaction();
+      await qr.commitTransaction();
+
       return saved;
     } catch (e) {
-      await queryRunner.rollbackTransaction();
-
-      await queryRunner.release();
-
+      await qr.rollbackTransaction();
+      await qr.release();
       throw e;
     }
   }

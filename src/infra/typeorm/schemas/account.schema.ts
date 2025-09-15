@@ -19,5 +19,9 @@ export const AccountSchema = new EntitySchema<Account>({
     email: {
       type: String,
     },
+    creditLimit: {
+      type: Number,
+      name: 'credit_limit',
+    },
   },
 });

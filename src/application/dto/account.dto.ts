@@ -10,3 +10,13 @@ export class CreateAccountRequestDTO {
   @IsEmail()
   email: string;
 }
+
+export interface CreateAccountResponseDTO {
+  accountId: string;
+}
+
+export interface GetAccountBalanceResponseDTO {
+  accountId: string;
+  balance: number;
+  availableLimit: number;
+}

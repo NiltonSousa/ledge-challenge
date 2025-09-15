@@ -10,6 +10,7 @@ export class CreateAccountTable1757702583660 implements MigrationInterface {
         name        VARCHAR(255)   NOT NULL,
         document    VARCHAR(64)    NOT NULL,
         email       VARCHAR(255)   NOT NULL,
+        credit_limit NUMERIC(14,2)  NOT NULL,
         created_at  TIMESTAMPTZ    NOT NULL DEFAULT now(),
         updated_at  TIMESTAMPTZ    NOT NULL DEFAULT now()
       );

@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AccountModule, MovimentModule } from './modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configDotenv } from 'dotenv';
+import { AccountController, MovimentController } from './controllers';
+import { AccountService, MovimentService } from './services';
+import { AccountSchema, MovimentSchema } from '@/infra/typeorm/schemas';
 configDotenv();
 
 @Module({
@@ -16,8 +18,9 @@ configDotenv();
       autoLoadEntities: true,
       synchronize: false,
     }),
-    AccountModule,
-    MovimentModule,
+    TypeOrmModule.forFeature([AccountSchema, MovimentSchema]),
   ],
+  controllers: [AccountController, MovimentController],
+  providers: [AccountService, MovimentService],
 })
 export class AppModule {}

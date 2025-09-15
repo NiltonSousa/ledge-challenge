@@ -4,6 +4,7 @@ export class Account {
     public readonly name: string,
     public readonly document: string,
     public readonly email: string,
+    public readonly creditLimit: number,
   ) {}
 
   static build(
@@ -11,7 +12,8 @@ export class Account {
     name: string,
     document: string,
     email: string,
+    creditLimit?: number,
   ): Account {
-    return new Account(id, name, document, email);
+    return new Account(id, name, document, email, creditLimit ?? 1000);
   }
 }

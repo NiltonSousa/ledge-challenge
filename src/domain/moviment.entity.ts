@@ -22,12 +22,4 @@ export class Moviment {
   ): Moviment {
     return new Moviment(id, accountId, account, amount, type, description);
   }
-
-  approveDebitMoviment(balanceLimitAmount: number): boolean {
-    if (this.type === 'DEBIT') {
-      return balanceLimitAmount >= this.amount;
-    }
-
-    return true;
-  }
 }
