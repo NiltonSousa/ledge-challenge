@@ -4,7 +4,8 @@ import { AccountController, MovimentController } from './controllers';
 import { AccountService, MovimentService } from './services';
 import { AccountSchema, MovimentSchema } from '@/infra/typeorm/schemas';
 import { configDotenv } from 'dotenv';
-import { RabbitPublisher } from '@/infra/publisher/rabbit';
+import { RabbitPublisher } from '@/infra/publisher/rabbit.publisher';
+import { LogConsumerModule } from './modules/consumer.module';
 
 configDotenv();
 
@@ -21,6 +22,7 @@ configDotenv();
       synchronize: false,
     }),
     TypeOrmModule.forFeature([AccountSchema, MovimentSchema]),
+    LogConsumerModule,
   ],
   controllers: [AccountController, MovimentController],
   providers: [AccountService, MovimentService, RabbitPublisher],

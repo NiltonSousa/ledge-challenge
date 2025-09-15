@@ -8,7 +8,7 @@ import { CreateMovimentRequestDTO } from '../dto';
 import { randomUUID } from 'node:crypto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { RabbitPublisher } from '@/infra/publisher/rabbit';
+import { RabbitPublisher } from '@/infra/publisher/rabbit.publisher';
 
 @Injectable()
 export class MovimentService {
@@ -75,13 +75,16 @@ export class MovimentService {
 
       await qr.commitTransaction();
 
-      await this.rabbit.publishMoviment({
-        movimentId: saved.id,
-        accountId: saved.accountId,
-        amount: saved.amount,
-        movementType: saved.type,
-        description: saved.description ?? null,
-      });
+      await this.rabbit.publish(
+        {
+          movimentId: saved.id,
+          accountId: saved.accountId,
+          amount: saved.amount,
+          movementType: saved.type,
+          description: saved.description ?? null,
+        },
+        'moviments_queue',
+      );
 
       return saved;
     } catch (e) {
