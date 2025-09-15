@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configDotenv } from 'dotenv';
 import { AccountController, MovimentController } from './controllers';
 import { AccountService, MovimentService } from './services';
 import { AccountSchema, MovimentSchema } from '@/infra/typeorm/schemas';
+import { configDotenv } from 'dotenv';
+import { RabbitPublisher } from '@/infra/publisher/rabbit';
+
 configDotenv();
 
 @Module({
@@ -21,6 +23,6 @@ configDotenv();
     TypeOrmModule.forFeature([AccountSchema, MovimentSchema]),
   ],
   controllers: [AccountController, MovimentController],
-  providers: [AccountService, MovimentService],
+  providers: [AccountService, MovimentService, RabbitPublisher],
 })
 export class AppModule {}

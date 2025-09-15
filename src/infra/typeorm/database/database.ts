@@ -1,5 +1,5 @@
-import { DataSource } from 'typeorm';
 import { configDotenv } from 'dotenv';
+import { DataSource } from 'typeorm';
 configDotenv();
 const isProd = process.env.NODE_ENV === 'production';
 
