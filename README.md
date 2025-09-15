@@ -4,18 +4,16 @@
 
 A financial ledger service that manages accounts and records credit/debit movements with transactional integrity and message publishing. Built with NestJS, TypeORM, and PostgreSQL, it exposes REST endpoints to create accounts, register movements, and retrieve the current balance and available credit limit. Movements are published to RabbitMQ for downstream processing, and a consumer service can log messages for auditing and reprocessing.
 
-## Pré Requisites
-
-### Required
+## Required
 
 - [Docker-Compose](https://docs.docker.com/compose/install/linux/)
-- [Node (20)](https://nodejs.org/en/)
+- [Node (>=20)](https://nodejs.org/en/)
 
 ## Design Architecture
 
 <img src="assets/ledger-arch.png" alt="Architecture" width="800" height="600">
 
-## How to execute locally (DOCKERFILE + DOCKER COMPOSE)
+## How to execute locally (DOCKER COMPOSE)
 
 Install dependencies
 
