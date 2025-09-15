@@ -8,12 +8,14 @@ export class AccountController {
   constructor(private readonly appService: AccountService) {}
 
   @Post()
-  createAccounts(@Body() dto: CreateAccountRequestDTO): Account {
-    return this.appService.createAccounts(dto);
+  async createAccounts(@Body() dto: CreateAccountRequestDTO): Promise<Account> {
+    return this.appService.createAccount(dto);
   }
 
   @Get(':id/balance')
-  getAccountById(@Param('id') accountId: string): Account {
+  async getAccountById(
+    @Param('id') accountId: string,
+  ): Promise<Account | null> {
     return this.appService.getAccountById(accountId);
   }
 }

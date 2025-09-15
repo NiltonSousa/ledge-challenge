@@ -6,7 +6,7 @@ export const AccountSchema = new EntitySchema<Account>({
   target: Account,
   columns: {
     id: {
-      type: Number,
+      type: 'uuid',
       primary: true,
       generated: true,
     },

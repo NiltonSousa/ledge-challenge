@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { MovimentController } from '../controllers';
 import { MovimentService } from '../services';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MovimentSchema } from '@/infra/typeorm/schemas';
+import { AccountSchema, MovimentSchema } from '@/infra/typeorm/schemas';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MovimentSchema])],
+  imports: [TypeOrmModule.forFeature([AccountSchema, MovimentSchema])],
   controllers: [MovimentController],
   providers: [MovimentService],
 })

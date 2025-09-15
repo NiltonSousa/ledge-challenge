@@ -8,7 +8,9 @@ export class MovimentController {
   constructor(private readonly appService: MovimentService) {}
 
   @Post()
-  createAccounts(@Body() dto: CreateMovimentRequestDTO): Moviment {
+  async createAccounts(
+    @Body() dto: CreateMovimentRequestDTO,
+  ): Promise<Moviment> {
     return this.appService.createMoviments(dto);
   }
 }

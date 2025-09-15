@@ -3,7 +3,6 @@ import { configDotenv } from 'dotenv';
 configDotenv();
 const isProd = process.env.NODE_ENV === 'production';
 
-console.log(isProd);
 export default new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST ?? 'localhost',

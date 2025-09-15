@@ -11,7 +11,8 @@ export const MovimentSchema = new EntitySchema<Moviment>({
       generated: true,
     },
     accountId: {
-      type: String,
+      type: 'uuid',
+      name: 'account_id',
     },
     amount: {
       type: Number,
@@ -27,7 +28,7 @@ export const MovimentSchema = new EntitySchema<Moviment>({
     account: {
       type: 'many-to-one',
       target: 'Account',
-      joinColumn: { name: 'accountId' },
+      joinColumn: { name: 'account_id' },
       inverseSide: 'moviments',
       onDelete: 'CASCADE',
     },
