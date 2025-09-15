@@ -23,7 +23,7 @@ export class RabbitConsumer implements OnModuleInit, OnModuleDestroy {
   private channel!: ChannelWrapper;
 
   async onModuleInit() {
-    const url = process.env.AMQP_URL ?? 'amqp://localhost:5672';
+    const url = process.env.AMQP_URL ?? 'amqp://admin:admin@localhost:5672';
     this.connection = amqp.connect([url], {
       heartbeatIntervalInSeconds: 10,
       reconnectTimeInSeconds: 5,
